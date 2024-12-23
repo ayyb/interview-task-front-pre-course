@@ -13,6 +13,25 @@ const TodoUserListPage = ({}: Props) => {
     { id: 2, text: "Daily Scrum 작성하기", completed: false },
     { id: 3, text: "주간회의 참여하기", completed: false },
   ]);
+
+  // 검색어 상태 관리
+  const [search, setSearch] = useState("");
+
+  const handleInput = (event) =>{
+    if(event.key === 'Enter'){
+      setTodos([...todos, {id: todos.length + 1, text: search, completed: false}]);
+      setSearch(''); //입력값 초기화
+    }
+  }
+
+  const handleChange = (e) =>{
+    const inputText = e.target.value;
+    if(inputText.length > 20){
+      alert('20자 이내로 입력해주세요');
+      return;
+    }
+    setSearch(inputText);
+  }
   return (
     <Container>
       <div>
@@ -21,7 +40,7 @@ const TodoUserListPage = ({}: Props) => {
 
       {/* input */}
       <div>
-        <input type="text" />
+        <input type="text" value={search} onChange={(e)=>handleChange(e)} onKeyDown={handleInput} placeholder="할 일을 입력해 주세요"/>
       </div>
       {/* board */}
       <div>
