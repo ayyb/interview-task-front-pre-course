@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import TodoInput from "../TodoInput";
+import TodoTabs from "../TodoTabs";
+import TodoList from "../TodoList";
 
 const Container = styled.div``;
 
@@ -18,32 +21,24 @@ const TodoUserListPage = ({}: Props) => {
   const [search, setSearch] = useState("");
 
   //탭 상태 관리
-  const [activeTab, setActiveTab] = useState("all"); 
+  const [activeTab, setActiveTab] = useState("all");
 
-  const handleInput = (event) =>{
-    if(event.key === 'Enter'){
-      //처리가 안된 할일 10개 제한
-      const incompleteTodos = todos.filter((todo) => !todo.completed);
-      if(incompleteTodos.length >= 10){
-        alert('미완료된 10개 이상의 할일을 등록할 수 없습니다.');
-        setSearch(''); //입력값 초기화  
-        return;
-      }
-      setTodos([...todos, {id: todos.length + 1, text: search, completed: false}]);
-      setSearch(''); //입력값 초기화
-    }
-  }
-
-  const handleChange = (e) =>{
-    const inputText = e.target.value;
-    if(inputText.length > 20){
-      alert('20자 이내로 입력해주세요');
+  const handleInput = (search: string) => {
+    //처리가 안된 할일 10개 제한
+    const incompleteTodos = todos.filter((todo) => !todo.completed);
+    if (incompleteTodos.length >= 10) {
+      alert("미완료된 10개 이상의 할일을 등록할 수 없습니다.");
+      setSearch(""); //입력값 초기화
       return;
     }
-    setSearch(inputText);
-  }
+    setTodos([
+      ...todos,
+      { id: todos.length + 1, text: search, completed: false },
+    ]);
+    setSearch(""); //입력값 초기화
+  };
 
-  const toggleCompleted = (id) => {
+  const toggleCompleted = (id: number) => {
     const changedTodos = todos.map((todo) => {
       if (todo.id === id) {
         return { ...todo, completed: !todo.completed };
@@ -52,9 +47,9 @@ const TodoUserListPage = ({}: Props) => {
     });
     setTodos(changedTodos);
     console.log(todos);
-  }
+  };
 
-  const deleteTodo = (id) => {
+  const deleteTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
@@ -69,7 +64,6 @@ const TodoUserListPage = ({}: Props) => {
       return todo.completed;
     }
   });
-  
 
   return (
     <Container>
@@ -78,32 +72,21 @@ const TodoUserListPage = ({}: Props) => {
       </div>
 
       {/* input */}
-      <div>
-        <input type="text" value={search} onChange={(e)=>handleChange(e)} onKeyDown={handleInput} placeholder="할 일을 입력해 주세요"/>
-      </div>
+      <TodoInput
+        search={search}
+        setSearch={setSearch}
+        handleInput={handleInput}
+      />
       {/* board */}
       <div>
         {/* tab */}
-        <div>
-          <button onClick={()=>setActiveTab('all')}>ALL</button>
-          <button onClick={()=>setActiveTab('todo')}>TODO</button>
-          <button onClick={()=>setActiveTab('done')}>DONE</button>
-        </div>
+        <TodoTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         {/* list */}
-        <div>
-          <span> 총 {filteredTodos.length}건</span>
-          <div>
-            {filteredTodos.map((todo) => (
-              <div
-                key={todo.id}
-              >
-                <input type="checkbox" onChange={() => toggleCompleted(todo.id)} checked={todo.completed}/>
-                {todo.text}
-                <span onClick={()=>deleteTodo(todo.id)}>x</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <TodoList
+          todos={filteredTodos}
+          toggleCompleted={toggleCompleted}
+          deleteTodo={deleteTodo}
+        />
       </div>
     </Container>
   );
