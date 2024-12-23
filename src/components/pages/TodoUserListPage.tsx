@@ -32,6 +32,17 @@ const TodoUserListPage = ({}: Props) => {
     }
     setSearch(inputText);
   }
+
+  const toggleCompleted = (id) => {
+    const changedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setTodos(changedTodos);
+    console.log(todos);
+  }
   return (
     <Container>
       <div>
@@ -58,7 +69,7 @@ const TodoUserListPage = ({}: Props) => {
               <div
                 key={todo.id}
               >
-                <input type="checkbox" />
+                <input type="checkbox" onChange={() => toggleCompleted(todo.id)} checked={todo.completed}/>
                 {todo.text}
                 <span>x</span>
               </div>
