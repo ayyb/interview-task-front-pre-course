@@ -17,6 +17,9 @@ const TodoUserListPage = ({}: Props) => {
   // 검색어 상태 관리
   const [search, setSearch] = useState("");
 
+  //탭 상태 관리
+  const [activeTab, setActiveTab] = useState("all"); 
+
   const handleInput = (event) =>{
     if(event.key === 'Enter'){
       setTodos([...todos, {id: todos.length + 1, text: search, completed: false}]);
@@ -47,6 +50,20 @@ const TodoUserListPage = ({}: Props) => {
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
+
+  const filteredTodos = todos.filter((todo) => {
+    if (activeTab === "all") {
+      return true;
+    }
+    if (activeTab === "todo") {
+      return !todo.completed;
+    }
+    if (activeTab === "done") {
+      return todo.completed;
+    }
+  });
+  
+
   return (
     <Container>
       <div>
@@ -61,15 +78,15 @@ const TodoUserListPage = ({}: Props) => {
       <div>
         {/* tab */}
         <div>
-          <div>ALL</div>
-          <div>TODO</div>
-          <div>DONE</div>
+          <button onClick={()=>setActiveTab('all')}>ALL</button>
+          <button onClick={()=>setActiveTab('todo')}>TODO</button>
+          <button onClick={()=>setActiveTab('done')}>DONE</button>
         </div>
         {/* list */}
         <div>
-          <span> 총 {todos.length}건</span>
+          <span> 총 {filteredTodos.length}건</span>
           <div>
-            {todos.map((todo) => (
+            {filteredTodos.map((todo) => (
               <div
                 key={todo.id}
               >
