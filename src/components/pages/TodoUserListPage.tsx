@@ -22,6 +22,13 @@ const TodoUserListPage = ({}: Props) => {
 
   const handleInput = (event) =>{
     if(event.key === 'Enter'){
+      //처리가 안된 할일 10개 제한
+      const incompleteTodos = todos.filter((todo) => !todo.completed);
+      if(incompleteTodos.length >= 10){
+        alert('미완료된 10개 이상의 할일을 등록할 수 없습니다.');
+        setSearch(''); //입력값 초기화  
+        return;
+      }
       setTodos([...todos, {id: todos.length + 1, text: search, completed: false}]);
       setSearch(''); //입력값 초기화
     }
