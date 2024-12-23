@@ -1,4 +1,7 @@
 import React from "react";
+import {
+    StyledInput,
+  } from "../styles";
 
 interface TodoInputProps {
   search: string;
@@ -24,7 +27,7 @@ const TodoInput: React.FC<TodoInputProps> = ({ search, setSearch, handleInput })
 
   return (
     <div>
-      <input
+      <StyledInput 
         type="text"
         value={search}
         onChange={handleChange}

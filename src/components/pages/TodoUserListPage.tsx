@@ -4,8 +4,14 @@ import styled from "@emotion/styled";
 import TodoInput from "../TodoInput";
 import TodoTabs from "../TodoTabs";
 import TodoList from "../TodoList";
+import {
+  Container,
+  InnerWrapper,
+  Header,
+  SectionWrapper,
+} from "../../styles";
 
-const Container = styled.div``;
+// const Container = styled.div``;
 
 interface Props {}
 
@@ -67,27 +73,27 @@ const TodoUserListPage = ({}: Props) => {
 
   return (
     <Container>
-      <div>
-        <h1>To Do List</h1>
-      </div>
+      <InnerWrapper>
+        <Header>To Do List</Header>
+        {/* board */}
 
-      {/* input */}
-      <TodoInput
-        search={search}
-        setSearch={setSearch}
-        handleInput={handleInput}
-      />
-      {/* board */}
-      <div>
-        {/* tab */}
-        <TodoTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        {/* list */}
-        <TodoList
-          todos={filteredTodos}
-          toggleCompleted={toggleCompleted}
-          deleteTodo={deleteTodo}
+        {/* input */}
+        <TodoInput
+          search={search}
+          setSearch={setSearch}
+          handleInput={handleInput}
         />
-      </div>
+        <SectionWrapper>
+          {/* tab */}
+          <TodoTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+          {/* list */}
+          <TodoList
+            todos={filteredTodos}
+            toggleCompleted={toggleCompleted}
+            deleteTodo={deleteTodo}
+          />
+        </SectionWrapper>
+      </InnerWrapper>
     </Container>
   );
 };

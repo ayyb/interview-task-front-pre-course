@@ -1,5 +1,8 @@
 import React from "react";
 import TodoItem from "./TodoItem";
+import {
+  ListWrapper,
+} from "../styles";
 
 interface Todo {
   id: number;
@@ -13,20 +16,26 @@ interface TodoListProps {
   deleteTodo: (id: number) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, toggleCompleted, deleteTodo }) => {
+const TodoList: React.FC<TodoListProps> = ({
+  todos,
+  toggleCompleted,
+  deleteTodo,
+}) => {
   return (
     <div>
-      <span> 총 {todos.length}건</span>
-      <div>
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            toggleCompleted={toggleCompleted}
-            deleteTodo={deleteTodo}
-          />
-        ))}
-      </div>
+      <ListWrapper>
+        <span> 총 {todos.length}건</span>
+        <div>
+          {todos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              toggleCompleted={toggleCompleted}
+              deleteTodo={deleteTodo}
+            />
+          ))}
+        </div>
+      </ListWrapper>
     </div>
   );
 };
