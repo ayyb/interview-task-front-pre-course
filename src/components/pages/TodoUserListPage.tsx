@@ -43,6 +43,10 @@ const TodoUserListPage = ({}: Props) => {
     setTodos(changedTodos);
     console.log(todos);
   }
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
   return (
     <Container>
       <div>
@@ -71,7 +75,7 @@ const TodoUserListPage = ({}: Props) => {
               >
                 <input type="checkbox" onChange={() => toggleCompleted(todo.id)} checked={todo.completed}/>
                 {todo.text}
-                <span>x</span>
+                <span onClick={()=>deleteTodo(todo.id)}>x</span>
               </div>
             ))}
           </div>
