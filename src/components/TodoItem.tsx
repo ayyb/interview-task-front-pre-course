@@ -34,6 +34,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          role="img" //테스트를 위해 추가
           onClick={() => toggleCompleted(todo.id)}
         >
        {todo.completed ? (
